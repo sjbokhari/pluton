@@ -16,3 +16,11 @@ model UserExample {
   email String  @unique
   name  String?
 }
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  //id        String   @id @default(uuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+}
