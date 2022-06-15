@@ -58,7 +58,7 @@ export const handler = async (event, context) => {
     },
 
     // How long a user will remain logged in, in seconds
-    expires: 60 * 60 * 24 * 365 * 10,
+    expires: 60 * 60, //* 24 * 365 * 10,
   }
 
   const resetPasswordOptions = {
