@@ -24,3 +24,21 @@ model Post {
   body      String
   createdAt DateTime @default(now())
 }
+
+model Revenue {
+  id          String   @id @default(uuid())
+  title       String
+  customer_id String
+  seasson_id  String
+  created_at  DateTime @default(now())
+}
+
+// model customer {
+//   id   String @id @default(uuid())
+//   name String
+// }
+
+// model session {
+//   id   String @id @default(uuid())
+//   name String
+// }
