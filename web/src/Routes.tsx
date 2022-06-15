@@ -14,6 +14,10 @@ import PostsLayout from 'src/layouts/PostsLayout'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/login" page={LoginPage} name="login" />
+      <Route path="/signup" page={SignupPage} name="signup" />
+      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
       <Set wrap={RevenuesLayout}>
         <Route path="/revenues/new" page={RevenueNewRevenuePage} name="newRevenue" />
         <Route path="/revenues/{id}/edit" page={RevenueEditRevenuePage} name="editRevenue" />

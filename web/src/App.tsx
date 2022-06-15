@@ -1,3 +1,5 @@
+import { AuthProvider } from '@redwoodjs/auth'
+
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
@@ -11,12 +13,14 @@ import './index.css'
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <ColorModeScript />
-      <ChakraProvider>
-        <RedwoodApolloProvider>
-          <Routes />
-        </RedwoodApolloProvider>
-      </ChakraProvider>
+      <AuthProvider type="dbAuth">
+        <ColorModeScript />
+        <ChakraProvider>
+          <RedwoodApolloProvider>
+            <Routes />
+          </RedwoodApolloProvider>
+        </ChakraProvider>
+      </AuthProvider>
     </RedwoodProvider>
   </FatalErrorBoundary>
 )

@@ -25089,6 +25089,7 @@ __metadata:
     "@chakra-ui/react": ^1
     "@emotion/react": ^11
     "@emotion/styled": ^11
+    "@redwoodjs/auth": 1.5.2
     "@redwoodjs/forms": 1.5.2
     "@redwoodjs/router": 1.5.2
     "@redwoodjs/web": 1.5.2
