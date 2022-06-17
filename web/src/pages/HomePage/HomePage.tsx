@@ -18,7 +18,7 @@ const HomePage = () => {
         Route for Posts `<Link to={routes.posts()}>Posts</Link>`
       </p>
       <p>
-        Route for revenue `<Link to={routes.revenues()}>Posts</Link>`
+        Route for revenue `<Link to={routes.revenues()}>Revenue</Link>`
       </p>
       <p>
         Route for revenue `<Link to={routes.signup()}>Signup</Link>`
