@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "deploy:setup": "pm2 deploy pm2.config.js production setup",
+    "deploy": "pm2 deploy pm2.config.js production deploy"
+  },
   "private": true,
   "workspaces": {
     "packages": [
@@ -8,7 +12,8 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/core": "1.5.2"
+    "@redwoodjs/core": "1.5.2",
+    "pm2": "^5.2.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
