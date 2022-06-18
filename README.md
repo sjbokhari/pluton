@@ -1,6 +1,6 @@
 # README
 
-Welcome to [RedwoodJS](https://redwoodjs.com)!
+pluton. A Simple Webapp for tracking, monitoring and automate the cashflow process build with [RedwoodJS](https://redwoodjs.com)!
 
 > **Prerequisites**
 >
