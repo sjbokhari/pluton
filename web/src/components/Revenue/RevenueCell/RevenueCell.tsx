@@ -8,8 +8,9 @@ export const QUERY = gql`
     revenue: revenue(id: $id) {
       id
       title
-      customer_id
-      seasson_id
+      customer
+      seasson
+      revenue
       created_at
     }
   }

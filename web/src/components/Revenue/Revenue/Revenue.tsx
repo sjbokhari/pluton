@@ -77,11 +77,14 @@ const Revenue = ({ revenue }) => {
               <th>Title</th>
               <td>{revenue.title}</td>
             </tr><tr>
-              <th>Customer id</th>
-              <td>{revenue.customer_id}</td>
+              <th>Customer</th>
+              <td>{revenue.customer}</td>
             </tr><tr>
-              <th>Seasson id</th>
-              <td>{revenue.seasson_id}</td>
+              <th>Seasson</th>
+              <td>{revenue.seasson}</td>
+            </tr><tr>
+              <th>Revenue</th>
+              <td>{revenue.revenue}</td>
             </tr><tr>
               <th>Created at</th>
               <td>{timeTag(revenue.created_at)}</td>

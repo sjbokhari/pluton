@@ -81,8 +81,9 @@ const RevenuesList = ({ revenues }) => {
           <tr>
             <th>Id</th>
             <th>Title</th>
-            <th>Customer id</th>
-            <th>Seasson id</th>
+            <th>Customer</th>
+            <th>Seasson</th>
+            <th>Revenue</th>
             <th>Created at</th>
             <th>&nbsp;</th>
           </tr>
@@ -92,8 +93,9 @@ const RevenuesList = ({ revenues }) => {
             <tr key={revenue.id}>
               <td>{truncate(revenue.id)}</td>
               <td>{truncate(revenue.title)}</td>
-              <td>{truncate(revenue.customer_id)}</td>
-              <td>{truncate(revenue.seasson_id)}</td>
+              <td>{truncate(revenue.customer)}</td>
+              <td>{truncate(revenue.seasson)}</td>
+              <td>{truncate(revenue.revenue)}</td>
               <td>{timeTag(revenue.created_at)}</td>
               <td>
                 <nav className="rw-table-actions">

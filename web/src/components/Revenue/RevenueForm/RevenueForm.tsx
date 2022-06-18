@@ -22,6 +22,9 @@ const RevenueForm = (props) => {
     
     
   
+    
+    
+  
     props.onSave(data, props?.revenue?.id)
   }
 
@@ -55,42 +58,61 @@ const RevenueForm = (props) => {
         <FieldError name="title" className="rw-field-error" />
 
         <Label
-          name="customer_id"
+          name="customer"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Customer id
+          Customer
         </Label>
         
           <TextField
-            name="customer_id"
-            defaultValue={props.revenue?.customer_id}
+            name="customer"
+            defaultValue={props.revenue?.customer}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
             validation={{ required: true }}
           />
         
 
-        <FieldError name="customer_id" className="rw-field-error" />
+        <FieldError name="customer" className="rw-field-error" />
 
         <Label
-          name="seasson_id"
+          name="seasson"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Seasson id
+          Seasson
         </Label>
         
           <TextField
-            name="seasson_id"
-            defaultValue={props.revenue?.seasson_id}
+            name="seasson"
+            defaultValue={props.revenue?.seasson}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
             validation={{ required: true }}
           />
         
 
-        <FieldError name="seasson_id" className="rw-field-error" />
+        <FieldError name="seasson" className="rw-field-error" />
+
+        <Label
+          name="revenue"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Revenue
+        </Label>
+        
+          <TextField
+            name="revenue"
+            defaultValue={props.revenue?.revenue}
+            className="rw-input"
+            errorClassName="rw-input rw-input-error"
+            validation={{ valueAsNumber: true, required: true }}
+          />
+        
+
+        <FieldError name="revenue" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Submit

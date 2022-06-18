@@ -10,8 +10,9 @@ export const QUERY = gql`
     revenues {
       id
       title
-      customer_id
-      seasson_id
+      customer
+      seasson
+      revenue
       created_at
     }
   }

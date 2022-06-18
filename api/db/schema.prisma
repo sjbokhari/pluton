@@ -35,11 +35,12 @@ model Post {
 }
 
 model Revenue {
-  id          String   @id @default(uuid())
-  title       String
-  customer_id String
-  seasson_id  String
-  created_at  DateTime @default(now())
+  id         String   @id @default(uuid())
+  title      String
+  customer   String
+  seasson    String
+  revenue    Decimal
+  created_at DateTime @default(now())
 }
 
 // model customer {

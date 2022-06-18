@@ -2,8 +2,9 @@ export const schema = gql`
   type Revenue {
     id: String!
     title: String!
-    customer_id: String!
-    seasson_id: String!
+    customer: String!
+    seasson: String!
+    revenue: Float!
     created_at: DateTime!
   }
 
@@ -14,14 +15,16 @@ export const schema = gql`
 
   input CreateRevenueInput {
     title: String!
-    customer_id: String!
-    seasson_id: String!
+    customer: String!
+    seasson: String!
+    revenue: Float!
   }
 
   input UpdateRevenueInput {
     title: String
-    customer_id: String
-    seasson_id: String
+    customer: String
+    seasson: String
+    revenue: Float
   }
 
   type Mutation {

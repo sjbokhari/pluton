@@ -28,12 +28,18 @@ describe('revenues', () => {
 
   scenario('creates a revenue', async () => {
     const result = await createRevenue({
-      input: { title: 'String', customer_id: 'String', seasson_id: 'String' },
+      input: {
+        title: 'String',
+        customer: 'String',
+        seasson: 'String',
+        revenue: 1441207.9460801387,
+      },
     })
 
     expect(result.title).toEqual('String')
-    expect(result.customer_id).toEqual('String')
-    expect(result.seasson_id).toEqual('String')
+    expect(result.customer).toEqual('String')
+    expect(result.seasson).toEqual('String')
+    expect(result.revenue).toEqual(1441207.9460801387)
   })
 
   scenario('updates a revenue', async (scenario: StandardScenario) => {
