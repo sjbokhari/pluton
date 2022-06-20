@@ -8,30 +8,33 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Set, Router, Route } from '@redwoodjs/router'
+import NavigationLayout from './layouts/NavigationLayout/NavigationLayout'
 import RevenuesLayout from 'src/layouts/RevenuesLayout'
 import PostsLayout from 'src/layouts/PostsLayout'
 
 const Routes = () => {
   return (
     <Router>
-      <Route path="/login" page={LoginPage} name="login" />
-      <Route path="/signup" page={SignupPage} name="signup" />
-      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
-      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
-      <Set wrap={RevenuesLayout}>
-        <Route path="/revenues/new" page={RevenueNewRevenuePage} name="newRevenue" />
-        <Route path="/revenues/{id}/edit" page={RevenueEditRevenuePage} name="editRevenue" />
-        <Route path="/revenues/{id}" page={RevenueRevenuePage} name="revenue" />
-        <Route path="/revenues" page={RevenueRevenuesPage} name="revenues" />
+      <Set wrap={NavigationLayout}>
+        <Route path="/login" page={LoginPage} name="login" />
+        <Route path="/signup" page={SignupPage} name="signup" />
+        <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+        <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+        <Set wrap={RevenuesLayout}>
+          <Route path="/revenues/new" page={RevenueNewRevenuePage} name="newRevenue" />
+          <Route path="/revenues/{id}/edit" page={RevenueEditRevenuePage} name="editRevenue" />
+          <Route path="/revenues/{id}" page={RevenueRevenuePage} name="revenue" />
+          <Route path="/revenues" page={RevenueRevenuesPage} name="revenues" />
+        </Set>
+        <Route path="/" page={HomePage} name="home" />
+        <Set wrap={PostsLayout}>
+          <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
+          <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
+          <Route path="/posts/{id:Int}" page={PostPostPage} name="post" />
+          <Route path="/posts" page={PostPostsPage} name="posts" />
+        </Set>
+        <Route notfound page={NotFoundPage} />
       </Set>
-      <Route path="/" page={HomePage} name="home" />
-      <Set wrap={PostsLayout}>
-        <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
-        <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
-        <Route path="/posts/{id:Int}" page={PostPostPage} name="post" />
-        <Route path="/posts" page={PostPostsPage} name="posts" />
-      </Set>
-      <Route notfound page={NotFoundPage} />
     </Router>
   )
 }
