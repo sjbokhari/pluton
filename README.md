@@ -3,6 +3,10 @@
 
 pluton is build for all people who does not want to do all the formaly accounting
 
+how to run api (from root)
+```bash
+uvicorn api.main:app --reload
+```
 
 ## Features
 
