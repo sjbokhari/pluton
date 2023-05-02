@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Notes API
+  version: '1.0'
+paths:
+  /notes:
+    get:
+      operationId: getAllNotes
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+        '500':
+          description: server error
+    post:
+      operationId: createNotes
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        '400':
+          description: bad request
+        '500':
+          description: server error
+  /notes/{id}:
+    get:
+      operationId: getNoteByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        '404':
+          description: not found
+        '500':
+          description: server error
+
+
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        remindDate:
+          type: string
