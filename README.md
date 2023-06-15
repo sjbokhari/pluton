@@ -25,5 +25,5 @@ Start the application and go to the route ```/docs`` there you can find a swagge
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](/LICENSE)
 
