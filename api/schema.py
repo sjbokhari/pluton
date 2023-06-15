@@ -1,35 +1,18 @@
 from pydantic import BaseModel
+import datetime
 
 
-class ItemBase(BaseModel):
-    title: str
-    description: str | None = None
+class EntryBase(BaseModel):
+    date: datetime.datetime
+    name: str
+    purpose: str
+    amount: int
 
-
-class ItemCreate(ItemBase):
+class EntryCreate(EntryBase):
     pass
 
-
-class Item(ItemBase):
+class Entry(EntryBase):
     id: int
-    owner_id: int
-
-    class Config:
-        orm_mode = True
-
-
-class UserBase(BaseModel):
-    email: str
-
-
-class UserCreate(UserBase):
-    password: str
-
-
-class User(UserBase):
-    id: int
-    is_active: bool
-    items: list[Item] = []
 
     class Config:
         orm_mode = True

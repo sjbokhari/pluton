@@ -22,37 +22,25 @@ async def db_session_middleware(request: Request, call_next):
 def get_db(request: Request):
     return request.state.db
 
+@app.post("/entries/", response_model=schema.Entry)
+def create_entry(entry: schema.EntryCreate, db: Session = Depends(get_db)):
+    return crud.create_entry(db, entry=entry)
 
-@app.post("/users/", response_model=schema.User)
-def create_user(user: schema.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user.email)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+@app.get("/entries", response_model=list[schema.Entry])
+def read_entries(skip: int=0, limit: int = 100, db: Session = Depends(get_db)):
+    entries = crud.get_entries(db, skip=skip, limit=limit)
+    return entries
 
+@app.get("/entries/{year}/{month}", response_model=schema.Entry)
+def read_entries_by_month(month: int, year: int, db: Session = Depends(get_db)):
+    db_entries = crud.get_entry_by_month(db, month=month, year=year)
+    if db_entries is None:
+        raise HTTPException(status_code=404, detail="No Entries found for this year and month")
+    return db_entries
 
-@app.get("/users/", response_model=list[schema.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    return users
-
-
-@app.get("/users/{user_id}", response_model=schema.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db, user_id=user_id)
-    if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_user
-
-
-@app.post("/users/{user_id}/items/", response_model=schema.Item)
-def create_item_for_user(
-    user_id: int, item: schema.ItemCreate, db: Session = Depends(get_db)
-):
-    return crud.create_user_item(db=db, item=item, user_id=user_id)
-
-
-@app.get("/items/", response_model=list[schema.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
-    return items
+@app.get("/entry/{entry_id}", response_model=schema.Entry)
+def read_user(entry_id: int, db: Session = Depends(get_db)):
+    db_entry = crud.get_entry(db, entry_id=entry_id)
+    if db_entry is None:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    return db_entry
