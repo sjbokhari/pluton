@@ -1,7 +1,7 @@
 
 # pluton - unified accounting for devs
 
-pluton is build for all people who does not want to do all the formaly accounting
+pluton is build for all people who does not want to do all the tedious accounting proceedure
 
 how to run api (from root)
 ```bash
@@ -68,17 +68,6 @@ Takes two numbers and returns the sum.
  - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
  - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-
-
-## FAQ
-
-#### Question 1
-
-Answer 1
-
-#### Question 2
-
-Answer 2
 
 
 ## License
