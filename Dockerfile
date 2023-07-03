@@ -1,14 +1,19 @@
-FROM python:3.8-slim
+FROM golang:1.20-buster as builder
 
-WORKDIR /code
+WORKDIR /app
 
-COPY ./requirements.txt /code/requirements.txt
+COPY go.* ./
+RUN go mod download
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY . ./
 
-COPY ./api /code/app
+RUN go build -v -o server
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "80"]
+FROM debian:buster-slim
+RUN set -x && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
-# If running behind a proxy like Nginx or Traefik add --proxy-headers
-# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers"]
+COPY --from=builder /app/server /app/server
+
+CMD [ "/app/server" ]
