@@ -1,10 +1,13 @@
 version: '3.8'
+
 services:
-  db:
-    image: postgres:14.1-alpine
-    restart: always
+  postgres:
+    image: "postgres"
+    container_name: "pluton-postgres"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      TZ: "Europe/Berlin"
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: pluton
     ports:
-      - '5432:5432'
+      - "5432:5432"
