@@ -3,6 +3,6 @@
         "GO111MODULE": "on"
     },
     "gopls": {
-        "experimentalWorkspaceModule": true,
+        "experimentalWorkspaceModule": true
     }
 }
