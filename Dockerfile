@@ -2,10 +2,8 @@ FROM golang:1.20-buster as builder
 
 WORKDIR /app
 
-COPY ./src/go.* ./
+COPY ./src ./
 RUN go mod download
-
-COPY . ./
 
 RUN go build -v -o server
 
