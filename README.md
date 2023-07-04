@@ -1,7 +1,7 @@
 
 # pluton - simplified accounting
 
-pluton is build for all people who does not want to do all the tedious accounting proceedure. This project is inspired by [ledger](https://github.com/howeyc/ledger)
+pluton is build for all people who does not want to do all the tedious accounting proceedure. This project is inspired by [ledger](https://github.com/howeyc/ledger) and [ledger-cmd](https://github.com/ledger/ledger)
 
 how to run api (from ./src)
 ```bash
