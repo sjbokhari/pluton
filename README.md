@@ -1,11 +1,11 @@
 
-# pluton - unified accounting for devs
+# pluton - simplified accounting
 
-pluton is build for all people who does not want to do all the tedious accounting proceedure
+pluton is build for all people who does not want to do all the tedious accounting proceedure. This project is inspired by [ledger](https://github.com/howeyc/ledger)
 
-how to run api (from root)
+how to run api (from ./src)
 ```bash
-uvicorn api.main:app --reload
+go run src/main.go
 ```
 
 ## Installation
@@ -13,14 +13,15 @@ uvicorn api.main:app --reload
 Install pluton via creating a own enviroment and run pip install. Here is an example given with conda.
 
 ```bash
+  git clone https://github.com/sjbokhari/pluton
   cd pluton
-  conda create -n pluton python=3.11 -y
-  pip install -r requirements.txt
+  cd src
+  go mod tidy
 ```
 
 ## API Reference
 
-Start the application and go to the route ```/docs`` there you can find a swagger documentation for this api.
+Comming soon.
 
 
 ## License
