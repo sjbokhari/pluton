@@ -5,42 +5,46 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/sjbokhari/pluton/models"
 )
-
-type User struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
 
 func main() {
 	db := initDB()
 	defer db.Close()
 
+	// Echo instance
 	e := echo.New()
 
-	e.GET("/users", getUsers(db))
-	e.GET("/users/:id", getUser(db))
-	e.POST("/users", createUser(db))
-	e.PUT("/users/:id", updateUser(db))
-	e.DELETE("/users/:id", deleteUser(db))
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	e.GET("/transactions", getTransactions(db))
+	e.GET("/transactions/:id", getTransaction(db))
+	e.POST("/transactions", createTransaction(db))
+	e.PUT("/transactions/:id", updateTransaction(db))
+	e.DELETE("/transactions/:id", deleteTransaction(db))
 
 	e.Logger.Fatal(e.Start(":6606"))
 }
 
 func initDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "../data/users.db")
+	db, err := sql.Open("sqlite3", "../data/transactions.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	query := `
-		CREATE TABLE IF NOT EXISTS users (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
+		CREATE TABLE IF NOT EXISTS revenue (
+			id TEXT PRIMARY KEY,
 			name TEXT,
-			email TEXT
+			comment TEXT
+			amount NUMERIC
+			isIncome BOOL
 		)
 	`
 
@@ -52,74 +56,71 @@ func initDB() *sql.DB {
 	return db
 }
 
-func getUsers(db *sql.DB) echo.HandlerFunc {
+func getTransactions(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		rows, err := db.Query("SELECT id, name, email FROM users")
+		rows, err := db.Query("SELECT * FROM revenue")
 		if err != nil {
 			return err
 		}
 		defer rows.Close()
 
-		users := []User{}
+		revenues := []models.Revenue{}
 		for rows.Next() {
-			var user User
-			err := rows.Scan(&user.ID, &user.Name, &user.Email)
+			var revenue models.Revenue
+			err := rows.Scan(&revenue.Id, &revenue.Name, &revenue.Comment, &revenue.Amount, &revenue.IsIncome)
 			if err != nil {
 				return err
 			}
-			users = append(users, user)
+			revenues = append(revenues, revenue)
 		}
 
-		return c.JSON(http.StatusOK, users)
+		return c.JSON(http.StatusOK, revenues)
 	}
 }
 
-func getUser(db *sql.DB) echo.HandlerFunc {
+func getTransaction(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
-		var user User
-		err := db.QueryRow("SELECT id, name, email FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.Email)
+		var revenue models.Revenue
+		err := db.QueryRow("SELECT id, name, comment, amount, isIncome FROM revenue WHERE id = ?", id).Scan(&revenue.Id, &revenue.Name, &revenue.Comment, &revenue.Amount, &revenue.IsIncome)
 		if err != nil {
 			if err == sql.ErrNoRows {
-				return echo.NewHTTPError(http.StatusNotFound, "User not found")
+				return echo.NewHTTPError(http.StatusNotFound, "Revenue not found")
 			}
 			return err
 		}
 
-		return c.JSON(http.StatusOK, user)
+		return c.JSON(http.StatusOK, revenue)
 	}
 }
 
-func createUser(db *sql.DB) echo.HandlerFunc {
+func createTransaction(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		user := new(User)
-		if err := c.Bind(user); err != nil {
+		revenue := new(models.Revenue)
+		if err := c.Bind(revenue); err != nil {
 			return err
 		}
-
-		result, err := db.Exec("INSERT INTO users (name, email) VALUES (?, ?)", user.Name, user.Email)
+		revenue.Id = uuid.NewString()
+		_, err := db.Exec("INSERT INTO revenue (id, name, comment, amount, isIncome) VALUES (?, ?, ?, ?, ?)", revenue.Id, revenue.Name, revenue.Comment, revenue.Amount, revenue.IsIncome)
 		if err != nil {
 			return err
 		}
 
-		id, _ := result.LastInsertId()
-		user.ID = int(id)
-
-		return c.JSON(http.StatusCreated, user)
+		return c.JSON(http.StatusCreated, revenue)
 	}
 }
 
-func updateUser(db *sql.DB) echo.HandlerFunc {
+func updateTransaction(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
-		user := new(User)
-		if err := c.Bind(user); err != nil {
+		revenue := new(models.Revenue)
+		if err := c.Bind(revenue); err != nil {
 			return err
 		}
 
-		_, err := db.Exec("UPDATE users SET name = ?, email = ? WHERE id = ?", user.Name, user.Email, id)
+		_, err := db.Exec("UPDATE users SET name = ?, comment = ?, amount = ?, isIncome = ? WHERE id = ?", revenue.Name, revenue.Comment, revenue.Amount, revenue.IsIncome, id)
 		if err != nil {
 			return err
 		}
@@ -128,11 +129,11 @@ func updateUser(db *sql.DB) echo.HandlerFunc {
 	}
 }
 
-func deleteUser(db *sql.DB) echo.HandlerFunc {
+func deleteTransaction(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
-		_, err := db.Exec("DELETE FROM users WHERE id = ?", id)
+		_, err := db.Exec("DELETE FROM revenue WHERE id = ?", id)
 		if err != nil {
 			return err
 		}
