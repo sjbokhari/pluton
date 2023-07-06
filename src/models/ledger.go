@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 // Account holds the name and balance
 type Account struct {
@@ -19,4 +21,13 @@ type Transaction struct {
 	PayeeComment   string
 	AccountChanges []Account
 	Comments       []string
+}
+
+// Revenue adjusted to the current state of making taxes.
+type Revenue struct {
+	Id       string
+	Name     string
+	Comment  string
+	Amount   float64
+	IsIncome bool
 }
