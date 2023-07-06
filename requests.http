@@ -1,31 +1,35 @@
-### GET all Users ###
+### GET all transactions ###
 
-GET http://localhost:8080/users
+GET http://localhost:6606/transactions
 
-### GET User by ID ###
+### GET transaction by ID ###
 
-GET http://localhost:8080/users/1
+GET http://localhost:6606/transactions/1
 
-### CREATE a new User ###
+### CREATE a new transaction ###
 
-POST http://localhost:8080/users
+POST http://localhost:6606/transactions
 Content-Type: application/json
 
 {
   "name": "John Doe",
-  "email": "johndoe@example.com"
+  "comment": "johndoe@example.com",
+  "amount": 123,
+  "isIncome": true
 }
 
-### UPDATE User ###
+### UPDATE transaction ###
 
-PUT http://localhost:8080/users/1
+PUT http://localhost:6606/transactions/1
 Content-Type: application/json
 
 {
-  "name": "Updated Name",
-  "email": "updated@example.com"
+  "name": "John Doe",
+  "comment": "johndoe@example.com",
+  "amount": 123,
+  "isIncome": true
 }
 
-### DELETE User ###
+### DELETE transaction ###
 
-DELETE http://localhost:8080/users/1
+DELETE http://localhost:6606/transactions/1
