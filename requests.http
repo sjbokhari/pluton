@@ -1,35 +1,35 @@
-### GET all transactions ###
+### GET all revenues ###
 
-GET http://localhost:6606/transactions
+GET http://localhost:6606/revenues
 
-### GET transaction by ID ###
+### GET revenue by ID ###
 
-GET http://localhost:6606/transactions/1
+GET http://localhost:6606/revenues/aa7028dc-b596-4032-9f5b-22bb4ca019b4
 
-### CREATE a new transaction ###
+### CREATE a new revenue ###
 
-POST http://localhost:6606/transactions
+POST http://localhost:6606/revenues
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "comment": "johndoe@example.com",
-  "amount": 123,
-  "isIncome": true
+  "name": "amazon",
+  "comment": "Cost of each month for AWS",
+  "amount": 500.00,
+  "isIncome": false
 }
 
-### UPDATE transaction ###
+### UPDATE revenue ###
 
-PUT http://localhost:6606/transactions/1
+PUT http://localhost:6606/revenues/aa7028dc-b596-4032-9f5b-22bb4ca019b4
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "comment": "johndoe@example.com",
-  "amount": 123,
-  "isIncome": true
+  "name": "amazon",
+  "comment": "Cost of each month for AWS (updated)",
+  "amount": 100.00,
+  "isIncome": false
 }
 
-### DELETE transaction ###
+### DELETE revenue ###
 
-DELETE http://localhost:6606/transactions/1
+DELETE http://localhost:6606/revenues/aa7028dc-b596-4032-9f5b-22bb4ca019b4
