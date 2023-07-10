@@ -23,17 +23,17 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/transactions", getTransactions(db))
-	e.GET("/transactions/:id", getTransaction(db))
-	e.POST("/transactions", createTransaction(db))
-	e.PUT("/transactions/:id", updateTransaction(db))
-	e.DELETE("/transactions/:id", deleteTransaction(db))
+	e.GET("/revenues", getRevenues(db))
+	e.GET("/revenues/:id", getRevenue(db))
+	e.POST("/revenues", createRevenue(db))
+	e.PUT("/revenues/:id", updateRevenue(db))
+	e.DELETE("/revenues/:id", deleteRevenue(db))
 
 	e.Logger.Fatal(e.Start(":6606"))
 }
 
 func initDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "../data/transactions.db")
+	db, err := sql.Open("sqlite3", "../data/revenues.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,8 +42,8 @@ func initDB() *sql.DB {
 		CREATE TABLE IF NOT EXISTS revenue (
 			id TEXT PRIMARY KEY,
 			name TEXT,
-			comment TEXT
-			amount NUMERIC
+			comment TEXT,
+			amount NUMERIC,
 			isIncome BOOL
 		)
 	`
@@ -56,7 +56,7 @@ func initDB() *sql.DB {
 	return db
 }
 
-func getTransactions(db *sql.DB) echo.HandlerFunc {
+func getRevenues(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		rows, err := db.Query("SELECT * FROM revenue")
 		if err != nil {
@@ -78,7 +78,7 @@ func getTransactions(db *sql.DB) echo.HandlerFunc {
 	}
 }
 
-func getTransaction(db *sql.DB) echo.HandlerFunc {
+func getRevenue(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
@@ -95,7 +95,7 @@ func getTransaction(db *sql.DB) echo.HandlerFunc {
 	}
 }
 
-func createTransaction(db *sql.DB) echo.HandlerFunc {
+func createRevenue(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		revenue := new(models.Revenue)
 		if err := c.Bind(revenue); err != nil {
@@ -111,7 +111,7 @@ func createTransaction(db *sql.DB) echo.HandlerFunc {
 	}
 }
 
-func updateTransaction(db *sql.DB) echo.HandlerFunc {
+func updateRevenue(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
@@ -120,7 +120,7 @@ func updateTransaction(db *sql.DB) echo.HandlerFunc {
 			return err
 		}
 
-		_, err := db.Exec("UPDATE users SET name = ?, comment = ?, amount = ?, isIncome = ? WHERE id = ?", revenue.Name, revenue.Comment, revenue.Amount, revenue.IsIncome, id)
+		_, err := db.Exec("UPDATE revenue SET name = ?, comment = ?, amount = ?, isIncome = ? WHERE id = ?", revenue.Name, revenue.Comment, revenue.Amount, revenue.IsIncome, id)
 		if err != nil {
 			return err
 		}
@@ -129,7 +129,7 @@ func updateTransaction(db *sql.DB) echo.HandlerFunc {
 	}
 }
 
-func deleteTransaction(db *sql.DB) echo.HandlerFunc {
+func deleteRevenue(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
