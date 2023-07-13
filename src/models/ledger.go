@@ -26,6 +26,7 @@ type Transaction struct {
 // Revenue adjusted to the current state of making taxes.
 type Revenue struct {
 	Id       string
+	Date     time.Time
 	Name     string
 	Comment  string
 	Amount   float64

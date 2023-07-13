@@ -2,18 +2,19 @@ package main
 
 import (
 	"database/sql"
-	"log"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/sjbokhari/pluton/handler"
 	"github.com/sjbokhari/pluton/models"
 )
 
 func main() {
-	db := initDB()
+	db := handler.InitDB()
 	defer db.Close()
 
 	// Echo instance
@@ -32,30 +33,6 @@ func main() {
 	e.Logger.Fatal(e.Start(":6606"))
 }
 
-func initDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "../data/revenues.db")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	query := `
-		CREATE TABLE IF NOT EXISTS revenue (
-			id TEXT PRIMARY KEY,
-			name TEXT,
-			comment TEXT,
-			amount NUMERIC,
-			isIncome BOOL
-		)
-	`
-
-	_, err = db.Exec(query)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return db
-}
-
 func getRevenues(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		rows, err := db.Query("SELECT * FROM revenue")
@@ -67,7 +44,7 @@ func getRevenues(db *sql.DB) echo.HandlerFunc {
 		revenues := []models.Revenue{}
 		for rows.Next() {
 			var revenue models.Revenue
-			err := rows.Scan(&revenue.Id, &revenue.Name, &revenue.Comment, &revenue.Amount, &revenue.IsIncome)
+			err := rows.Scan(&revenue.Id, &revenue.Date, &revenue.Name, &revenue.Comment, &revenue.Amount, &revenue.IsIncome)
 			if err != nil {
 				return err
 			}
@@ -83,7 +60,7 @@ func getRevenue(db *sql.DB) echo.HandlerFunc {
 		id := c.Param("id")
 
 		var revenue models.Revenue
-		err := db.QueryRow("SELECT id, name, comment, amount, isIncome FROM revenue WHERE id = ?", id).Scan(&revenue.Id, &revenue.Name, &revenue.Comment, &revenue.Amount, &revenue.IsIncome)
+		err := db.QueryRow("SELECT id, date, name, comment, amount, isIncome FROM revenue WHERE id = ?", id).Scan(&revenue.Id, &revenue.Date, &revenue.Name, &revenue.Comment, &revenue.Amount, &revenue.IsIncome)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				return echo.NewHTTPError(http.StatusNotFound, "Revenue not found")
@@ -102,7 +79,8 @@ func createRevenue(db *sql.DB) echo.HandlerFunc {
 			return err
 		}
 		revenue.Id = uuid.NewString()
-		_, err := db.Exec("INSERT INTO revenue (id, name, comment, amount, isIncome) VALUES (?, ?, ?, ?, ?)", revenue.Id, revenue.Name, revenue.Comment, revenue.Amount, revenue.IsIncome)
+		revenue.Date = time.Now()
+		_, err := db.Exec("INSERT INTO revenue (id, date, name, comment, amount, isIncome) VALUES (?, ?, ?, ?, ?, ?)", revenue.Id, revenue.Date, revenue.Name, revenue.Comment, revenue.Amount, revenue.IsIncome)
 		if err != nil {
 			return err
 		}
